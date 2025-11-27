@@ -296,6 +296,12 @@ Scene breaks within a chapter are achieved with a single HR, which is =---= (thr
 
 Chapters should /not/ end with a scene break; instead, a chapter break (i.e. a forced section break) will automatically be taken.
 
+If you're using footnotes, you can use [[https://pandoc.org/demo/example33/8.19-footnotes.html][inline footnotes]] but then you have to use [[#transformations][transformations]] when generating the pdf format :
+
+#+BEGIN_SRC
+Formatting footnotes for PDF generation	(?sm)(\w+)\^\[([^\]]+?)\]		\1[\2]{.footnote}
+#+END_SRC
+
 To deal with text-centering in front-matter pages, or to manage page-numbering or running elements, see [[#section-styles][the next section]] below. To center particular paragraphs within otherwise-justified prose, [[#how-can-i-centrecenter-a-given-paragraph-within-the-main-prose-sections-of-the-book][see this question]].
 
 ** Section styles
