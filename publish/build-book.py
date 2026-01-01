@@ -744,7 +744,13 @@ all_formats = "all" in output_formats
 yaml_shared_path = os.path.join(os.path.dirname(this_script_path), "options-shared.yaml")
 # Final arg list will be: pre_args + (format-specific args, so settings/styles override properly) + post_args
 pandoc_pre_args = ['pandoc', f'--defaults={yaml_shared_path}']
-pandoc_post_args = [f'--metadata-file={full_metadata_path}', f'--metadata=date:"{meta_date}"', f'--metadata=date-year:"{meta_date_year}"', master_filename]
+# Use -M key=value for broad pandoc compatibility (some versions don't accept --metadata=key:"value")
+pandoc_post_args = [
+	f'--metadata-file={full_metadata_path}',
+	'-M', f'date={meta_date}',
+	'-M', f'date-year={meta_date_year}',
+	master_filename,
+]
 # Work around pandoc issue with not accepting css entries in metadata files.
 if "css" in json_contents:
 	extra_css = json_contents["css"]
