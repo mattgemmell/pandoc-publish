@@ -48,6 +48,18 @@
 	@bottom-center { content: none; }
 }
 
+@page {
+	@footnote {
+		border-top: black 1px solid;
+		margin: 0;
+	}
+}
+
+.footnote {
+	float: footnote;
+	font-size: 0.75rem;
+}
+
 body {
 	font-family: Palatino, Georgia, serif;
 	font-size: 10.5pt;

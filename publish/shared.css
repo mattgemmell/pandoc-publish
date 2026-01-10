@@ -84,3 +84,8 @@ hr:after {
 	margin-top: 1rem;
 	margin-bottom: 1rem;
 }
+
+.footnote-ref {
+    line-height: 0;
+    font-size: 0.8em;
+}

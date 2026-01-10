@@ -290,7 +290,7 @@ parser.add_argument('--lang', '-l', help="[optional] Define the language for the
 args=parser.parse_known_args()
 
 # Obtain configuration parameters
-this_script_path = os.path.abspath(os.path.expanduser(sys.argv[0]))
+this_script_path = os.path.realpath(os.path.expanduser(sys.argv[0]))
 folder_path = args[0].input_folder
 exclusions = args[0].exclude
 json_file_path = args[0].json_metadata_file

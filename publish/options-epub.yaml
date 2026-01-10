@@ -1,4 +1,6 @@
 ---
 to: epub3
+css:
+  - ${.}/epub.css
 epub-title-page: false
 ...
