@@ -1,7 +1,11 @@
+:root {
+  --theme-color: #b00;
+}
+
 @page {
 	size: 7.5in 9.5in;
-	@top-center { font-family: Helvetica, sans-serif; font-weight: bold; }
-	@bottom-center { font-family: Helvetica, sans-serif; font-weight: bold; }
+	@top-center { font-family: Helvetica, sans-serif; font-weight: bold; font-variant-caps: all-small-caps; color: var(--theme-color); font-size: 12pt; }
+	@bottom-center { font-family: Helvetica, sans-serif; font-weight: bold; color: var(--theme-color); font-size: 12pt; }
 }
 
 body {
@@ -20,11 +24,32 @@ section:not(.unindented) * + p {
 
 h1, h1:has(+ section) {
 	margin-top: 50pt;
-	color: rebeccapurple;
-	text-decoration: underline;
-	text-decoration-thickness: 0.2rem;
-	text-decoration-color: rebeccapurple;
-	text-underline-offset: 0.5rem;
+	color: var(--theme-color);
+	border-bottom: 0.4rem solid var(--theme-color);
+	padding-bottom: 0.5rem;
+	text-align: left;
+}
+
+h1.unlisted {
+	padding-bottom: 0;
+	border-bottom: none;
+}
+
+.book-title, .book-subtitle {
+	font-size: 3rem;
+	font-weight: bold;
+	color: var(--theme-color);
+}
+
+.book-subtitle {
+	font-size: 2rem;
+}
+
+.book-author {
+	margin-top: 7rem;
+	font-weight: bold;
+	font-size: 2rem;
+	font-variant-caps: small-caps; 
 }
 
 h3, h4 {
@@ -37,7 +62,8 @@ code {
 }
 
 a:link {
-	color: blue;
+	color: var(--theme-color);
+	font-weight: bold;
 	text-decoration: underline;
 }
 
@@ -54,18 +80,50 @@ li {
 }
 
 hr {
-	margin: 1.5rem 0;
+	margin: 2rem auto;
+	border-bottom: 0.2rem solid var(--theme-color);
+	height: 0;
+	width: 60%;
 }
 
 hr:after {
-	content: "\010AF1";
-	font-weight: bold;
-	font-size: 1.5rem;
-	color: rebeccapurple;
+	height: 0;
+	content: "";
 }
 
-hr, hr:after {
-	height: 1.6rem;
+figure:has(> img) {
+	margin: 2rem 0;
+	text-align: center;
+}
+
+figure img {
+	margin: 0 auto;
+	max-width: 80%;
+	border-radius: 8pt;
+}
+
+figure:not(.figuremark) figcaption {
+	font-size: 1rem;
+	color: var(--theme-color);
+	line-height: 1rem;
+}
+
+figure.example, figure.example figcaption {
+	font-size: 1rem;
+}
+
+figure.example figcaption {
+	color: var(--theme-color);
+	border-color: var(--theme-color);
+}
+
+figure.example {
+	border-color: var(--theme-color);
+	padding-bottom: 0;
+}
+
+figure.example .figure-content {
+	margin: 0;
 }
 
 .toc li > a.page-number::before {
@@ -75,7 +133,6 @@ hr, hr:after {
 .toc li > a.page-number::after {
 	content: target-counter(attr(href), page);
 	float: right;
-	color: #06f;
 }
 
 .toc ol ol {
@@ -90,4 +147,8 @@ hr, hr:after {
 .toc li:not(:has(> a)) {
 	margin-top: -15.5pt;
 	list-style-type: none;
+}
+
+dl.index {
+	background-color: white;
 }

@@ -1,0 +1,4 @@
+--input-folder book
+--json-metadata-file metadata.json
+--output-basename example-book
+--verbose
