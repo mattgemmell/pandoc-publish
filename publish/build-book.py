@@ -78,18 +78,7 @@ def string_to_slug(text):
 	return text.lower()
 
 def generate_toc(markdown_text, start=1, depth=3, ordered=True, plain=False, output="markdown", classes=[]):
-	
-	# Generate a hierarchical table of contents for Markdown (atx-style, hash-prefixed) headings.
-	# 	markdown_text: full Markdown contents of document
-	# 	start: shallowest heading-level to include
-	# 	depth: deepest heading-level to include
-	# 	ordered: if True, ordered ("1." etc) list, else unordered ("-")
-	# 	plain: if True, omit all CSS classes, and the .page-number links for each entry
-	# 	output: "markdown" (nested list, uses attribute-list syntax for classes) or "html"
-	# 	classes: CSS classes (without leading period) to apply to overall list
-	
-	
-	# Find all headings.
+	# Table of contents generator with support for {toc="..."} overrides in attribute blocks.
 	headings = re.findall(rf'^(#{{{int(start)},{int(depth)}}})\s+(.+)', markdown_text, re.MULTILINE)
 	if not headings:
 		return ""
@@ -113,13 +102,30 @@ def generate_toc(markdown_text, start=1, depth=3, ordered=True, plain=False, out
 		id_override = None
 		if id_match:
 			id_override = id_match.group(1)
-		
-		# Remove any Markdown formatting from title (e.g. inline code, emphasis, links).
-		clean_title = re.sub(r'[_*`#]', '', title)
-		# Remove Markdown links, keep text.
-		clean_title = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', clean_title).strip()
-		# Remove trailing attribute strings.
-		clean_title = re.sub(r'{[^\}]+}\s*$', '', clean_title).strip()
+
+		# Extract attribute block (if any) from end of heading.
+		attr_block = ""
+		title_main = title
+		attr_match = re.search(r'\{([^\}]*)\}\s*$', title)
+		if attr_match:
+			attr_block = attr_match.group(1)
+			title_main = title[:attr_match.start()].rstrip()
+
+		# Try to extract toc attribute from the attribute block.
+		toc_override = None
+		toc_match = re.search(r'toc\s*=\s*"([^"]+)"', attr_block)
+		if not toc_match:
+			toc_match = re.search(r"toc\s*=\s*'([^']+)'", attr_block)
+		if not toc_match:
+			toc_match = re.search(r'toc\s*=\s*([^\s}]+)', attr_block)
+		if toc_match:
+			toc_override = toc_match.group(1)
+
+		if toc_override:
+			clean_title = toc_override
+		else:
+			# Remove Markdown links, keep text and inline formatting.
+			clean_title = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', title_main).strip()
 		
 		# Generate anchor by turning title into slug.
 		slug = string_to_slug(clean_title)
