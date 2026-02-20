@@ -761,7 +761,7 @@ if "css" in json_contents:
 if pandoc_verbose:
 	pandoc_post_args.append("--verbose")
 if extra_args:
-	pandoc_post_args.append(extra_args)
+	pandoc_post_args.extend(extra_args.split())
 
 for this_format in output_formats:
 	if not this_format in valid_output_formats and this_format != "all":
