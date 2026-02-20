@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 # Usage: Run this script with the "-h" flag for brief help.
 # Documentation: https://github.com/mattgemmell/pandoc-novel/blob/main/README.org
