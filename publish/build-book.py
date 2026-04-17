@@ -609,10 +609,6 @@ if process_figuremark:
 	inform(f"FigureMark processing enabled.")
 	master_contents = figuremark.convert(master_contents)
 
-# Process ToC / Table of Contents. Must be before TextIndex, since TextIndex may HTMLify Markdown headings.
-if should_process_toc:
-	master_contents = process_toc(master_contents)
-
 # Process transformations. Must be before TextIndex, since TextIndex may HTMLify Markdown headings.
 if run_transformations:
 	# Check for any requested transformations.
@@ -657,15 +653,6 @@ if run_transformations:
 			inform(f"- {message}")
 			master_contents = re.sub(transformation[search_key], transformation[replace_key], master_contents)
 
-# Process TextIndex.
-if process_textindex:
-	figuremark_lib_path = os.path.join(os.path.dirname(this_script_path), "TextIndex/")
-	sys.path.append(figuremark_lib_path)
-	from textindex import textindex
-	inform(f"TextIndex processing enabled.")
-	index = textindex.TextIndex(master_contents)
-	master_contents = index.indexed_document()
-
 # Process placeholders.
 if placeholder_mode == "basic":
 	placeholder_delim = "%"
@@ -696,6 +683,19 @@ elif placeholder_mode == "jinja2":
 		master_contents = template.render(json_contents)
 	except ImportError as e:
 		inform(f"Couldn't find jinja2 for python3: {e}", severity="warning")
+
+# Process ToC / Table of Contents. Must be before TextIndex, since TextIndex may HTMLify Markdown headings.
+if should_process_toc:
+	master_contents = process_toc(master_contents)
+
+# Process TextIndex.
+if process_textindex:
+	figuremark_lib_path = os.path.join(os.path.dirname(this_script_path), "TextIndex/")
+	sys.path.append(figuremark_lib_path)
+	from textindex import textindex
+	inform(f"TextIndex processing enabled.")
+	index = textindex.TextIndex(master_contents)
+	master_contents = index.indexed_document()
 
 # Save master file with timestamp, or without if we're retaining it.
 if retain_collated_master:
