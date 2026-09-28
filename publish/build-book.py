@@ -577,6 +577,7 @@ try:
 		
 		if not excluded:
 			master_documents.append(text_contents)
+			master_documents.append("\n")
 			included_file_paths.append(file)
 		else:
 			continue
